@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Order</h2>
+<ul id="orderDetails"></ul>
+<label for="pickup_time">Pickup Time:</label>
+<input type="text" id="pickup_time" name="pickup_time">
+<label for="note">Note:</label>
+<input type="text" id="note" name="note">
+<button id="submitOrderButton">Submit Order</button>
+{% endblock %}

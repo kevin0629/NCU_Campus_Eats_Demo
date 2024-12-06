@@ -1,0 +1,159 @@
+import requests
+from flask import Blueprint, flash, redirect, request, render_template, url_for, session, current_app
+from flask_mail import Mail
+from app.Services.Auth_Service import *
+
+auth_bp = Blueprint('auth', __name__, template_folder='templates/auth', static_folder='./static')
+mail = Mail(current_app)
+
+# 系統首頁
+@auth_bp.route('/')
+def index():
+    return render_template('auth/login.html')
+
+# 一般登入
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = authenticate_user(username, password)
+        if user:
+            session['username'] = user['username']
+            session['role'] = user['role']
+
+            if user['role'] == 1:
+                session['customer_id'] = user['customer_id']
+                session['customer_name'] = user['customer_name']
+                return redirect(url_for('menus.view_store', customer_id=user['customer_id']))
+            elif user['role'] == 2:
+                session['restaurant_id'] = user['restaurant_id']
+                session['restaurant_name'] = user['restaurant_name']
+                session['icon'] = user['icon']
+                return redirect(url_for('menus.view_menu', restaurant_id=user['restaurant_id']))
+        else:
+            flash('帳號或密碼錯誤！')
+            return redirect(url_for('auth.login'))
+
+    return render_template('auth/login.html')
+
+# portal登入
+@auth_bp.route('/NCUlogin', methods=['GET', 'POST'])
+def portal_login():
+    # Redirect to the portal's OAuth login URL
+    return redirect(f"{current_app.config['AUTHORIZATION_URL']}?response_type=code&client_id={current_app.config['CLIENT_ID']}&redirect_uri={current_app.config['REDIRECT_URI']}&scope={current_app.config['SCOPE']}")
+
+# Portal授權完成後的回調處理
+@auth_bp.route('/customers/callback')
+def callback():
+    code = request.args.get('code')
+
+    if not code:
+        return "Authorization code not found.", 400
+
+    # 交換授權碼為 access token
+    token_response = requests.post(current_app.config['TOKEN_URL'], data={
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': current_app.config['REDIRECT_URI'],
+        'client_id': current_app.config['CLIENT_ID'],
+        'client_secret': current_app.config['CLIENT_SECRET'],
+    }, headers={'Accept': 'application/json'})
+
+    token_json = token_response.json()
+    if 'access_token' not in token_json:
+        return "Failed to get access token.", 400
+
+    access_token = token_json['access_token']
+
+    # 使用 access token 取得使用者資訊
+    user_info_response = requests.get(current_app.config['USER_INFO_URL'], headers={
+        'Authorization': f'Bearer {access_token}',
+        'Accept': 'application/json'
+    })
+
+    user_info = user_info_response.json()
+    username = user_info.get('identifier')
+    password = encrypt_password(user_info.get('personalId')[-4:])
+    role = 1  # 1 表示顧客
+
+    name = user_info.get('chineseName')
+    phone = user_info.get('mobilePhone')
+    email = user_info.get('email')
+
+    # 查詢該學號是否有在用戶資料表中
+    user_exists = is_user_exist(username)
+
+    # 沒有用戶資料表中 -> 自動新增資料
+    if not user_exists:
+        add_user(username, password, role)
+        add_customer(name, phone, email, username)
+        customer = get_customer(username)
+    else:
+        customer = get_customer(username)
+
+    # 有在用戶資料表中 -> 登入成功，顯示餐廳清單頁面
+    session['username'] = username
+    session['role'] = role
+    session['customer_id'] = customer['customer_id']
+    session['customer_name'] = customer['name']
+    
+    return redirect(url_for('menus.view_store'))  # 新用戶自動導向顧客菜單頁面
+
+# 通用的註冊邏輯
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        data = request.form
+        result = register_user(data)
+        if 'error' in result:
+            flash(result['error'])
+            return redirect(url_for('auth.register'))
+        else:
+            flash(result['success'])
+            return redirect(url_for('auth.login'))
+
+    return render_template('auth/register.html')
+
+# 登出
+@auth_bp.route('/logout')
+def logout():
+    # 清除用戶的 session
+    session.clear()
+    return redirect(url_for('auth.login'))
+
+# 忘記密碼
+@auth_bp.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+
+        result = reset_password(username, email)
+        if 'error' in result:
+            flash(result['error'])
+            return render_template('auth/forgot_password.html')
+        else:
+            flash(result['success'])
+            return redirect(url_for('auth.login'))
+
+    return render_template('auth/forgot_password.html')
+
+# 修改密碼
+@auth_bp.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        result = change_password(session['username'], current_password, new_password, confirm_password)
+        if 'error' in result:
+            flash(result['error'])
+            return redirect(url_for('auth.change_password'))
+        else:
+            flash(result['success'])
+            return redirect(url_for('auth.login'))
+
+    return render_template('auth/change_password.html')

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Eats</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Campus Eats</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('campus_eats.index') }}">首頁</a></li>
+                <!-- <li><a href="{{ url_for('campus_eats.login') }}">Login</a></li> -->
+                <li><a href="{{ url_for('campus_eats.register') }}">註冊</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

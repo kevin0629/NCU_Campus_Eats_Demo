@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to Campus Eats</h2>
+<p>Your one-stop solution for campus dining.</p>
+<form id="loginForm" method="POST" action="{{ url_for('campus_eats.login') }}">
+    <label for="username">帳號:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">密碼:</label>
+    <input type="password" id="password" name="password" required>
+    <label for="role">角色:</label>
+    <select id="role" name="role" required>
+        <option value="1">顧客</option>
+        <option value="2">店家</option>
+    </select>
+    <button type="submit">登入</button>
+</form>
+{% endblock %}

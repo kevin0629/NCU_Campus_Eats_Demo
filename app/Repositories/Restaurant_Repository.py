@@ -31,9 +31,11 @@ def update_restaurant_info(restaurant_info, restaurant_name, phone, address, bus
         restaurant_info.icon = image_path
         db_session.commit()
 
-def get_store_info(restaurant_id):
-    with get_session() as db_session:
-        return db_session.query(Restaurant).filter_by(restaurant_id=restaurant_id).first()
+def get_store_info(db_session, restaurant_id):
+    store_info = db_session.query(Restaurant).filter_by(restaurant_id=restaurant_id).first()
+    # print(restaurant_id)
+    # print(store_info)
+    return store_info
 
 def get_item_info(item_id):
     with get_session() as db_session:

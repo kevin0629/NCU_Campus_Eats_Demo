@@ -41,8 +41,9 @@ def update_store_info(restaurant_id, restaurant_name, phone, address, manager, m
     update_restaurant_info(restaurant_info, restaurant_name, phone, address, business_hours, manager, manager_email, image_path)
     return {'success': '餐廳信息更新成功'}
 
-def get_store_info_service(restaurant_id):
-    store_info = get_store_info(restaurant_id)
+def get_store_info_service(db_session, restaurant_id):
+    print('restaurant id', restaurant_id)
+    store_info = get_store_info(db_session, restaurant_id)
 
     # 初始化一個包含所有天的字典，值為空列表
     days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

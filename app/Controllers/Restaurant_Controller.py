@@ -56,7 +56,9 @@ def edit_store_info():
 @restaurant_bp.route('/management/view_store_info')
 def view_store_info():
     restaurant_id = session.get('restaurant_id')
-    store_data = get_store_info_service(restaurant_id)
+    print('restaurant id', restaurant_id)
+    with get_session() as db_session:
+        store_data = get_store_info_service(db_session, restaurant_id)
     return render_template('restaurants/profile.html', **store_data)
 
 @restaurant_bp.route('/management/modify_item/<int:item_id>', methods=['GET', 'POST'])

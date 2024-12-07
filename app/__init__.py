@@ -2,7 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from contextlib import contextmanager
 import pymysql
+import os
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -12,6 +16,7 @@ mail = Mail()
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
+    app.secret_key = os.urandom(24)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -27,6 +32,24 @@ def create_app():
         # 建立資料表
         db.create_all()
 
+        # 創建 SQLAlchemy 引擎和 session
+        DATABASE_URL = app.config['SQLALCHEMY_DATABASE_URI']
+        engine = create_engine(DATABASE_URL)
+        SessionLocal = sessionmaker(bind=engine)
+
+        # 創建一個上下文管理器來自動管理 Session 的生命週期
+        @contextmanager
+        def get_session():
+            session = SessionLocal()
+            try:
+                yield session
+                session.commit()  # 若有任何變更需要提交
+            except Exception:
+                session.rollback()  # 發生錯誤時回滾事務
+                raise
+            finally:
+                session.close()  # 結束後關閉 session
+
         
         # 延遲匯入controllers
         from .Controllers import Auth_Controller, Customer_Controller, Restaurant_Controller, Menu_Controller
@@ -35,6 +58,7 @@ def create_app():
         app.register_blueprint(Customer_Controller.customer_bp)
         app.register_blueprint(Restaurant_Controller.restaurant_bp)
         app.register_blueprint(Menu_Controller.menu_bp)
+
 
     return app
 

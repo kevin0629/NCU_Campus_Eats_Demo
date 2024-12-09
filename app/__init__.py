@@ -32,24 +32,6 @@ def create_app():
         # 建立資料表
         db.create_all()
 
-        # 創建 SQLAlchemy 引擎和 session
-        DATABASE_URL = app.config['SQLALCHEMY_DATABASE_URI']
-        engine = create_engine(DATABASE_URL)
-        SessionLocal = sessionmaker(bind=engine)
-
-        # 創建一個上下文管理器來自動管理 Session 的生命週期
-        @contextmanager
-        def get_session():
-            session = SessionLocal()
-            try:
-                yield session
-                session.commit()  # 若有任何變更需要提交
-            except Exception:
-                session.rollback()  # 發生錯誤時回滾事務
-                raise
-            finally:
-                session.close()  # 結束後關閉 session
-
         
         # 延遲匯入controllers
         from .Controllers import Auth_Controller, Customer_Controller, Restaurant_Controller, Menu_Controller

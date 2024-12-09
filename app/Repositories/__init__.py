@@ -3,12 +3,12 @@ from sqlalchemy.orm import sessionmaker
 from flask import current_app
 from app import db
 
-# SessionLocal = sessionmaker(bind=db.engine)  # 確保與資料庫引擎綁定
+Session = sessionmaker(bind=db.engine)  # 確保與資料庫引擎綁定
 
 # 創建一個上下文管理器來自動管理 Session 的生命週期
 @contextmanager
 def get_session():
-    session = db.session
+    session = Session()
     try:
         yield session
         session.commit() # 若有任何變更需要提交

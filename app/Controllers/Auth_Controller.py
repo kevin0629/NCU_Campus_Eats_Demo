@@ -2,6 +2,7 @@ import requests
 from flask import Blueprint, flash, redirect, request, render_template, url_for, session, current_app
 from flask_mail import Mail
 from app.Services.Auth_Service import *
+from app.Repositories import get_session
 
 auth_bp = Blueprint('auth', __name__, template_folder='templates/auth', static_folder='./static')
 mail = Mail(current_app)
@@ -17,24 +18,26 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        
+        with get_session() as db_session:
+            # 驗證用戶
+            user = authenticate_user_service(db_session, username, password)
+            if user:
+                session['username'] = user['username']
+                session['role'] = user['role']
 
-        user = authenticate_user(username, password)
-        if user:
-            session['username'] = user['username']
-            session['role'] = user['role']
-
-            if user['role'] == 1:
-                session['customer_id'] = user['customer_id']
-                session['customer_name'] = user['customer_name']
-                return redirect(url_for('menus.view_store', customer_id=user['customer_id']))
-            elif user['role'] == 2:
-                session['restaurant_id'] = user['restaurant_id']
-                session['restaurant_name'] = user['restaurant_name']
-                session['icon'] = user['icon']
-                return redirect(url_for('menus.view_menu', restaurant_id=user['restaurant_id']))
-        else:
-            flash('帳號或密碼錯誤！')
-            return redirect(url_for('auth.login'))
+                if user['role'] == 1:
+                    session['customer_id'] = user['customer_id']
+                    session['customer_name'] = user['customer_name']
+                    return redirect(url_for('menus.view_store', customer_id=user['customer_id']))
+                elif user['role'] == 2:
+                    session['restaurant_id'] = user['restaurant_id']
+                    session['restaurant_name'] = user['restaurant_name']
+                    session['icon'] = user['icon']
+                    return redirect(url_for('menus.view_menu', restaurant_id=user['restaurant_id']))
+            else:
+                flash('帳號或密碼錯誤！')
+                return redirect(url_for('auth.login'))
 
     return render_template('auth/login.html')
 
@@ -82,22 +85,23 @@ def callback():
     phone = user_info.get('mobilePhone')
     email = user_info.get('email')
 
-    # 查詢該學號是否有在用戶資料表中
-    user_exists = is_user_exist(username)
+    with get_session() as db_session:
+        # 查詢該學號是否有在用戶資料表中
+        user_exists = is_user_exist(db_session, username)
 
-    # 沒有用戶資料表中 -> 自動新增資料
-    if not user_exists:
-        add_user(username, password, role)
-        add_customer(name, phone, email, username)
-        customer = get_customer(username)
-    else:
-        customer = get_customer(username)
+        # 沒有用戶資料表中 -> 自動新增資料
+        if not user_exists:
+            add_user(db_session, username, password, role)
+            add_customer(db_session, name, phone, email, username)
+            customer = get_customer(db_session, username)
+        else:
+            customer = get_customer(db_session, username)
 
-    # 有在用戶資料表中 -> 登入成功，顯示餐廳清單頁面
-    session['username'] = username
-    session['role'] = role
-    session['customer_id'] = customer['customer_id']
-    session['customer_name'] = customer['name']
+        # 有在用戶資料表中 -> 登入成功，顯示餐廳清單頁面
+        session['username'] = username
+        session['role'] = role
+        session['customer_id'] = customer['customer_id']
+        session['customer_name'] = customer['name']
     
     return redirect(url_for('menus.view_store'))  # 新用戶自動導向顧客菜單頁面
 
@@ -106,13 +110,16 @@ def callback():
 def register():
     if request.method == 'POST':
         data = request.form
-        result = register_user(data)
-        if 'error' in result:
-            flash(result['error'])
-            return redirect(url_for('auth.register'))
-        else:
-            flash(result['success'])
-            return redirect(url_for('auth.login'))
+        icon = request.files.get('icon')
+
+        with get_session() as db_session:
+            result = register_user_service(db_session, data, icon)
+            if 'error' in result:
+                flash(result['error'])
+                return render_template('auth/register.html', form_data=request.form)
+            else:
+                flash(result['success'])
+                return render_template('auth/register.html', form_data=request.form)
 
     return render_template('auth/register.html')
 
@@ -130,13 +137,14 @@ def forgot_password():
         username = request.form['username']
         email = request.form['email']
 
-        result = reset_password(username, email)
-        if 'error' in result:
-            flash(result['error'])
-            return render_template('auth/forgot_password.html')
-        else:
-            flash(result['success'])
-            return redirect(url_for('auth.login'))
+        with get_session() as db_session:
+            result = reset_password(db_session, username, email)
+            if 'error' in result:
+                flash(result['error'])
+                return render_template('auth/forgot_password.html')
+            else:
+                flash(result['success'])
+                return redirect(url_for('auth.login'))
 
     return render_template('auth/forgot_password.html')
 
@@ -147,13 +155,13 @@ def change_password():
         current_password = request.form['current_password']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
-
-        result = change_password(session['username'], current_password, new_password, confirm_password)
-        if 'error' in result:
-            flash(result['error'])
-            return redirect(url_for('auth.change_password'))
-        else:
-            flash(result['success'])
-            return redirect(url_for('auth.login'))
+        with get_session() as db_session:
+            result = change_password_service(db_session, session['username'], current_password, new_password, confirm_password)
+            if 'error' in result:
+                flash(result['error'])
+                return redirect(url_for('auth.change_password'))
+            else:
+                flash(result['success'])
+                return redirect(url_for('auth.login'))
 
     return render_template('auth/change_password.html')

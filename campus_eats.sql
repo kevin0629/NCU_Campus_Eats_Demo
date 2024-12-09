@@ -49,7 +49,7 @@ CREATE TABLE menu_item (
 -- 訂單資料表
 CREATE TABLE order_table (
     order_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '訂單ID，自動遞增，PK',
-    total_amount DECIMAL(10, 2) NOT NULL COMMENT '訂單總金額',
+    total_amount INT NOT NULL COMMENT '訂單總金額',
     order_status INT NOT NULL COMMENT '訂單狀態（如：0下單前(在購物車中)、1待處理、2店家確認、3處理中、4已完成、5已刪除）',
     order_time DATETIME NOT NULL COMMENT '訂單建立時間',
     payment_method INT COMMENT '付款方式（如：1現金、2信用卡）',

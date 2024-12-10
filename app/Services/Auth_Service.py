@@ -101,11 +101,12 @@ def reset_password(db_session, username, email):
     if user:
         if user.role == 1:  # 顧客
             customer = get_customer_by_email(db_session, username, email)
+            if not customer:
+                return {'error': '帳號或電子郵件不正確。'}  # 顧客不存在
         elif user.role == 2:  # 店家
             restaurant = get_restaurant_by_email(db_session, username, email)
-            
-        if (not customer) or (not restaurant):
-            return {'error': '帳號或電子郵件不正確。'}
+            if not restaurant:
+                return {'error': '帳號或電子郵件不正確。'}  # 店家不存在
 
         new_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 

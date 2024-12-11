@@ -23,7 +23,7 @@ def checkout_order():
         payment_method = request.form['payment_method'] # 新增獲取付款方式
         with get_session() as db_session:
             checkout_order_service(db_session, order_id, total_price, pickup_time, payment_method)
-    return redirect(url_for('customers.view_cart'))
+    return redirect(url_for('carts.view_cart'))
 
 
 # 5.3.2新增訂單備註
@@ -35,14 +35,14 @@ def add_note():
     note_text = request.form.get('note')
     if not note_text:
         flash("請輸入備註內容", "error")
-        return redirect(url_for('customers.view_cart'))
+        return redirect(url_for('carts.view_cart'))
     with get_session() as db_session:
         success = add_note_service(db_session, order_id, order_detail_id, note_text)
         if success:
             flash("備註新增成功！", "success")
         else:
             flash("找不到訂單或訂單細項，請重試", "error")
-    return redirect(url_for('customers.view_cart'))
+    return redirect(url_for('carts.view_cart'))
 
 
 # 5.4 修改訂單狀態回到退回狀態
@@ -57,7 +57,7 @@ def return_order():
         if not IsReturn:
             flash('已有相同店家未送出的訂單，無法將此訂單退回到修改狀態。', 'error')
         
-    return redirect(url_for('customers.view_order'))
+    return redirect(url_for('carts.view_order'))
 
 # 5.5 刪除整筆購物車
 @order_bp.route('/delete_order', methods=['POST'])
@@ -65,7 +65,7 @@ def delete_order():
     order_id = request.form['order_id']
     if not order_id:
         flash('無效的訂單 ID', 'error')
-        return redirect(url_for('customers.view_order'))
+        return redirect(url_for('carts.view_order'))
     else:
         with get_session() as db_session:
             IsDeleted = delete_order_from_cart(db_session, order_id)
@@ -74,4 +74,4 @@ def delete_order():
             else:
                 flash('未找到該訂單，請檢查後再試。', 'error')
 
-    return redirect(url_for('customers.view_cart'))
+    return redirect(url_for('carts.view_cart'))

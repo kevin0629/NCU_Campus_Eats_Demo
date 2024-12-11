@@ -41,7 +41,7 @@ class MenuItem(db.Model):
     item_id = db.Column(db.Integer, primary_key=True, autoincrement=True, comment='餐點ID，自動遞增，PK')
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.restaurant_id'), nullable=False, comment='所屬店家ID（FK）')
     item_name = db.Column(db.String(100), nullable=False, comment='餐點名稱')
-    price = db.Column(db.Float, nullable=False, comment='餐點價格')
+    price = db.Column(db.Integer, nullable=False, comment='餐點價格')
     description = db.Column(db.String(255), comment='餐點描述')
     status = db.Column(db.Integer, nullable=False, default=1, comment='餐點狀態（0停售、1販售中）')
     item_image = db.Column(db.String(255), comment='餐點圖片(URL)')
@@ -70,6 +70,6 @@ class OrderDetail(db.Model):
     
     # 其他屬性
     item_id = db.Column(db.Integer, db.ForeignKey('menu_item.item_id'), nullable=False, comment='對應的餐點ID')
-    item_price = db.Column(db.Float, nullable=False, comment='餐點單價')
+    item_price = db.Column(db.Integer, nullable=False, comment='餐點單價')
     quantity = db.Column(db.Integer, nullable=False, comment='購買的餐點數量')
     item_note = db.Column(db.String(255), comment='餐點備註')

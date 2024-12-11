@@ -57,7 +57,7 @@ def return_order():
         if not IsReturn:
             flash('已有相同店家未送出的訂單，無法將此訂單退回到修改狀態。', 'error')
         
-    return redirect(url_for('carts.view_order'))
+    return redirect(url_for('orders.view_order'))
 
 # 5.5 刪除整筆購物車
 @order_bp.route('/delete_order', methods=['POST'])

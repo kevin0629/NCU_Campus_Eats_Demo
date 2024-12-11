@@ -26,8 +26,8 @@ def register():
                 return render_template('auth/register.html', form_data=request.form)
             else:
                 flash(result['success'])
-                return render_template('auth/register.html', form_data=request.form)
-
+                return redirect(url_for('auth.login'))
+                
     return render_template('auth/register.html')
 
 # 1.1+1.2 Portal授權完成後的回調處理

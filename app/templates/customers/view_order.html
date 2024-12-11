@@ -76,15 +76,17 @@
             <p>目前沒有歷史訂單。</p>
         {% endif %}     
         
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <script>
-                        alert("{{ message }}");
-                </script>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["return_order_error", "return_order_success"], with_categories=True) %}
+        {% if messages %}
+            <script>
+                const messages = JSON.parse('{{ messages | tojson | safe }}');
+                messages.forEach(([category, message]) => {
+                    alert(message);
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+    
 
     </div>
 

@@ -39,9 +39,9 @@ def add_note():
     with get_session() as db_session:
         success = add_note_service(db_session, order_id, order_detail_id, note_text)
         if success:
-            flash("備註新增成功！", "success")
+            flash("備註新增成功！", "add_note_success")
         else:
-            flash("找不到訂單或訂單細項，請重試", "error")
+            flash("找不到訂單或訂單細項，請重試", "add_note_error")
     return redirect(url_for('carts.view_cart'))
 
 
@@ -54,9 +54,11 @@ def return_order():
     
     with get_session() as db_session:
         IsReturn = return_order_service(db_session, order_id, restaurant_id, customer_id)
-        if not IsReturn:
-            flash('已有相同店家未送出的訂單，無法將此訂單退回到修改狀態。', 'error')
-        
+        if IsReturn:
+            flash('已有相同店家未送出的訂單，無法將此訂單退回到修改狀態。', 'return_order_error')
+        else:
+            flash('訂單狀態已退回尚未送出，請至購物車頁面進行修改！', 'return_order_success')
+
     return redirect(url_for('orders.view_order'))
 
 # 5.5 刪除整筆購物車

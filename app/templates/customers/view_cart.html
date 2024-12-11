@@ -161,6 +161,17 @@
         </div>
     </div>
 
+    {% with messages = get_flashed_messages(category_filter=["add_note_success", "add_note_error"], with_categories=True) %}
+        {% if messages %}
+            <script>
+                const messages = JSON.parse('{{ messages | tojson | safe }}');
+                messages.forEach(([category, message]) => {
+                    alert(message);
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
     <script>
         function confirmAction(itemName, action) {
             let message = "";

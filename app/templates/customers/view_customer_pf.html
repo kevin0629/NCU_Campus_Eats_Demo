@@ -51,7 +51,20 @@
             <button type="submit" class="btn-submit">修改</button>
         </form>
     </div>
-    
+
+    {% with messages = get_flashed_messages(category_filter=["edit_profile_success", "edit_profile_error"], with_categories=True) %}
+        {% if messages %}
+            <script>
+                const messages = JSON.parse('{{ messages | tojson | safe }}');
+                messages.forEach(([category, message]) => {
+                    alert(message);
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+
+
     <script>
         // 確認修改個人資料的函數
         function confirmEditProfile() {

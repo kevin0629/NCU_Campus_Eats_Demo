@@ -26,10 +26,11 @@ def return_order_service(db_session, order_id, restaurant_id, customer_id):
     for order in all_cart_item:
         if order['restaurant_id'] == restaurant_id:
             existing_order = True
-            break
-    if existing_order:
-        return False
-    else:
+            return True
+
+    if not existing_order:
         return_order(db_session, order_id)
+        return False
+        
 
 

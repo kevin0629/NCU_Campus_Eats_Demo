@@ -38,7 +38,7 @@ CREATE TABLE restaurant (
 CREATE TABLE menu_item (
     item_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '餐點ID，自動遞增，PK',
     item_name VARCHAR(100) NOT NULL COMMENT '餐點名稱',
-    price DECIMAL(10, 2) NOT NULL COMMENT '餐點價格',
+    price INT NOT NULL COMMENT '餐點價格',
     description TEXT COMMENT '餐點描述',
     status INT COMMENT '餐點狀態（0停售、1販售中）',
     item_image VARCHAR(255) COMMENT '餐點圖片URL',
@@ -65,7 +65,7 @@ CREATE TABLE order_detail (
     order_detail_id INT AUTO_INCREMENT COMMENT '訂單明細ID，自動遞增，複合主鍵',
     order_id INT COMMENT '對應的訂單ID（複合主鍵、FK）',
     item_id INT COMMENT '對應的餐點ID（FK）',
-	item_price DECIMAL(10, 2) NOT NULL COMMENT '餐點單價',
+	item_price INT NOT NULL COMMENT '餐點單價',
     item_note TEXT COMMENT '餐點備註',
     quantity INT NOT NULL COMMENT '購買的餐點數量',
     PRIMARY KEY (order_detail_id, order_id),

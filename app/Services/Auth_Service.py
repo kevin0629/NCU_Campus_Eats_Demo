@@ -38,8 +38,6 @@ def register_user_service(db_session, data, icon):
         address = data.get('address')
         manager = data.get('manager')
         manager_email = data.get('manager_email')
-        # icon = data.get('icon')
-        print("icon", icon)
 
         if icon and icon.filename:
             last_store = get_last_store(db_session)

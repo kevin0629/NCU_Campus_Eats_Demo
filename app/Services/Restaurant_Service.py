@@ -5,7 +5,6 @@ from app.Repositories.Restaurant_Repository import *
 
 # 2.1 取得餐廳資訊Service
 def get_store_info_service(db_session, restaurant_id):
-    print('restaurant id', restaurant_id)
     # 取得餐廳資訊
     store_info = get_restaurant_info(db_session, restaurant_id)
 
@@ -38,15 +37,15 @@ def get_store_info_service(db_session, restaurant_id):
 def update_store_info(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours):
     # 取得餐廳資訊
     restaurant_info = get_restaurant_info(db_session, restaurant_id)
-    print("restaurant_info", restaurant_info.address)
+
     if icon and icon.filename:
         # 處理圖片
         filename, file_extension = os.path.splitext(icon.filename)
         filename = str(restaurant_info.restaurant_id) + file_extension
         image_path = os.path.join('images/restaurants', filename)  # 儲存相對路徑
         image_path = image_path.replace("\\", "/")
-        os.makedirs(os.path.dirname(os.path.join('./static', image_path)), exist_ok=True)  # 確保目錄存在
-        icon.save(os.path.join('./static', image_path))  # 儲存圖片
+        os.makedirs(os.path.dirname(os.path.join('./app/static', image_path)), exist_ok=True)  # 確保目錄存在
+        icon.save(os.path.join('./app/static', image_path))  # 儲存圖片
     else:
         image_path = restaurant_info.icon  # 若無圖片則設為之前的圖片
 
@@ -55,7 +54,7 @@ def update_store_info(db_session, restaurant_id, restaurant_name, phone, address
 
     # 更新餐廳資訊
     update_restaurant_info(db_session, restaurant_info, restaurant_name, phone, address, business_hours, manager, manager_email, image_path)
-    return {'success': '餐廳信息更新成功'}
+    return {'success': '餐廳信息更新成功', 'icon': image_path}
 
 # 餐點相關==============================================================================================================
 
@@ -74,8 +73,8 @@ def add_menu_item(db_session, restaurant_id, item_name, price, description, stat
         filename = str(item_id + 1) + file_extension
         image_path = os.path.join('images/menus', filename)  # 儲存相對路徑
         image_path = image_path.replace("\\", "/")  # 防止 Windows 路徑問題
-        os.makedirs(os.path.dirname(os.path.join('./static', image_path)), exist_ok=True)  # 確保目錄存在
-        item_image.save(os.path.join('./static', image_path))  # 儲存圖片
+        os.makedirs(os.path.dirname(os.path.join('./app/static', image_path)), exist_ok=True)  # 確保目錄存在
+        item_image.save(os.path.join('./app/static', image_path))  # 儲存圖片
     else:
         image_path = 'images/menus/menu.png'  # 若無圖片則設為 None
 
@@ -98,8 +97,8 @@ def update_menu_item(db_session, item_id, item_name, price, description, status,
         filename = str(item_info.item_id) + file_extension
         image_path = os.path.join('images/menus', filename)  # 儲存相對路徑
         image_path = image_path.replace("\\", "/")  # 防止 Windows 路徑問題
-        os.makedirs(os.path.dirname(os.path.join('./static', image_path)), exist_ok=True)  # 確保目錄存在
-        item_image.save(os.path.join('./static', image_path))  # 儲存圖片
+        os.makedirs(os.path.dirname(os.path.join('./app/static', image_path)), exist_ok=True)  # 確保目錄存在
+        item_image.save(os.path.join('./app/static', image_path))  # 儲存圖片
     else:
         image_path = item_info.item_image  # 若無圖片則設為上一張圖片
 

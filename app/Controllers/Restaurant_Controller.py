@@ -9,7 +9,6 @@ restaurant_bp = Blueprint('restaurants', __name__, template_folder='templates/re
 @restaurant_bp.route('/management/view_store_info')
 def view_store_info():
     restaurant_id = session.get('restaurant_id')
-    print('restaurant id', restaurant_id)
     with get_session() as db_session:
         store_data = get_store_info_service(db_session, restaurant_id)
     return render_template('restaurants/profile.html', **store_data)
@@ -36,7 +35,7 @@ def edit_store_info():
             result = update_store_info(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours)
             if 'success' in result:
                 session['restaurant_name'] = restaurant_name
-                session['icon'] = icon.filename if icon and icon.filename else session['icon']
+                session['icon'] = result['icon']
                 flash(result['success'])
         return redirect(url_for('menus.view_menu', restaurant_id=restaurant_id))
 

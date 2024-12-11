@@ -7,7 +7,6 @@ from sqlalchemy import desc
 # 2.1 取得餐廳資訊
 def get_restaurant_info(db_session, restaurant_id):
     result = db_session.query(Restaurant).filter_by(restaurant_id=restaurant_id).first()
-    print("result---", result.address)
     return result
 
 # 2.2 更新餐廳資訊
@@ -107,6 +106,7 @@ def get_history_orders(db_session, restaurant_id):
         .join(MenuItem, OrderDetail.item_id == MenuItem.item_id)
         .join(Restaurant, MenuItem.restaurant_id == Restaurant.restaurant_id)
         .filter(MenuItem.restaurant_id == restaurant_id, OrderTable.payment_status == 1)
+        .order_by(desc(OrderTable.order_time))
         .all()
     )
     return result

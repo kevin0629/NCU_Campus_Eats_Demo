@@ -15,7 +15,7 @@ def add_to_cart():
         with get_session() as db_session:
             restaurant_id = add_item_to_cart(db_session, item_id, item_price, customer_id)
             if redirect_flag == 1:
-                return redirect(url_for('customers.view_cart'))
+                return redirect(url_for('carts.view_cart'))
             else:
                 return redirect(url_for('menus.view_menu', restaurant_id=restaurant_id))
         
@@ -36,5 +36,5 @@ def remove_from_cart():
         order_detail_id = request.form['order_detail_id']
         with get_session() as db_session:
             remove_item_from_cart(db_session, order_id, order_detail_id)
-    return redirect(url_for('customers.view_cart'))
+    return redirect(url_for('carts.view_cart'))
 

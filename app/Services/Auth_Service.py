@@ -53,7 +53,7 @@ def register_user_service(db_session, data, icon):
             os.makedirs(os.path.dirname(image_path), exist_ok=True)  # 確保目錄存在
             icon.save(image_path)  # 儲存圖片
         else:
-            image_path = 'static/images/restaurants/restaurant.png'  # 若無圖片則設為設定預設圖片
+            image_path = 'app/static/images/restaurants/restaurant.png'  # 若無圖片則設為設定預設圖片
 
         hours = {}
         for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:

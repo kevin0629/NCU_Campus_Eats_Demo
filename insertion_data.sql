@@ -14,12 +14,12 @@ INSERT INTO `customer` (`customer_id`, `name`, `phone`, `email`, `username`) VAL
 (2, '郭鎧菘', '0966514845', 'k113423027@g.ncu.edu.tw', '113423027');
 
 INSERT INTO `restaurant` (`restaurant_id`, `restaurant_name`, `phone`, `address`, `business_hours`, `manager`, `manager_email`, `icon`, `username`) VALUES
-(1, '炸雞大師', '03-427-5571', '桃園市中壢區中大路300號', 'Monday: 11:00~17:30, Tuesday: 11:00~17:30, Wednesday: 11:00~17:30, Thursday: 11:00~17:30, Friday: 11:00~17:30', 'Kevin', 'k113423027@g.ncu.edu.tw', 'images/restaurants/1.png', 'chicken master'),
+(1, '炸雞大師', '03-427-5571', '男九餐廳', 'Monday: 11:00~17:30, Tuesday: 11:00~17:30, Wednesday: 11:00~17:30, Thursday: 11:00~17:30, Friday: 11:00~17:30', 'Kevin', 'k113423027@g.ncu.edu.tw', 'images/restaurants/1.png', 'chicken master'),
 (2, 'test', '0966514845', '桃園市中壢區中大路300號', 'Friday: 17:00~23:59', 'Kevin', 'k113423027@g.ncu.edu.tw', 'images/restaurants/restaurant.png', 'test'),
-(3, '四海遊龍', '03-427-5429', '桃園市中壢區中大路300號', 'Monday: 11:00~20:00, Tuesday: 11:00~20:00, Wednesday: 11:00~20:00, Thursday: 11:00~20:00, Friday: 11:00~20:00', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/3.jpg', 'Yuloong'),
-(4, '皇城滇緬料理', '0926-120-473', '桃園市中壢區中大路300號', 'Monday: 11:00~14:00, Tuesday: 11:00~14:00, Wednesday: 11:00~14:00, Thursday: 11:00~14:00, Friday: 11:00~14:00', 'Kevin', 'k113423027@g.ncu.edu.tw', 'images/restaurants/restaurant.png', 'ImperialCity'),
-(5, '吃找餐', '0987-734-797', '桃園市中壢區中大路300號', 'Monday: 06:30~13:30, Tuesday: 06:30~13:30, Wednesday: 06:30~13:30, Thursday: 06:30~13:30, Friday: 06:30~13:30, Saturday: 08:00~13:00', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/restaurant.png', 'eat breakfast'),
-(6, '漢堡王', '03-420-0832', '320桃園市中壢區中大路300號中央大學松苑餐廳1樓', 'Monday: 09:00~20:30, Tuesday: 09:00~20:30, Wednesday: 09:00~20:30, Thursday: 09:00~20:30, Friday: 09:00~20:30, Saturday: 09:00~20:30, Sunday: 09:00~20:30', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/6.jpg', 'burger king');
+(3, '四海遊龍', '03-427-5429', '男九餐廳', 'Monday: 11:00~20:00, Tuesday: 11:00~20:00, Wednesday: 11:00~20:00, Thursday: 11:00~20:00, Friday: 11:00~20:00', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/3.jpg', 'Yuloong'),
+(4, '皇城滇緬料理', '0926-120-473', '男九餐廳', 'Monday: 11:00~14:00, Tuesday: 11:00~14:00, Wednesday: 11:00~14:00, Thursday: 11:00~14:00, Friday: 11:00~14:00', 'Kevin', 'k113423027@g.ncu.edu.tw', 'images/restaurants/restaurant.png', 'ImperialCity'),
+(5, '吃找餐', '0987-734-797', '男九餐廳', 'Monday: 06:30~13:30, Tuesday: 06:30~13:30, Wednesday: 06:30~13:30, Thursday: 06:30~13:30, Friday: 06:30~13:30, Saturday: 08:00~13:00', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/restaurant.png', 'eat breakfast'),
+(6, '漢堡王', '03-420-0832', '松苑餐廳1樓', 'Monday: 09:00~20:30, Tuesday: 09:00~20:30, Wednesday: 09:00~20:30, Thursday: 09:00~20:30, Friday: 09:00~20:30, Saturday: 09:00~20:30, Sunday: 09:00~20:30', 'David', '410935010@gms.ndhu.edu.tw', 'images/restaurants/6.jpg', 'burger king');
 
 INSERT INTO `menu_item` (`item_id`, `item_name`, `price`, `description`, `status`, `item_image`, `restaurant_id`) VALUES
 (3, '雞排', 85, 'It\'s good to eat.', 1, 'images/menus/1.jpg', 1),

@@ -75,7 +75,7 @@ def check_existing_orders(db_session, customer_id):
 
         if item_id:
             # 通過該商品的編號去 menu_item 表格查詢所屬店家
-            restaurant_id = get_restaurant_id_for_item(item_id)
+            restaurant_id = get_restaurant_id_for_item(db_session, item_id)
             if restaurant_id:
                 restaurant_ids.append({"order_id": order_id, "restaurant_id": restaurant_id})
 

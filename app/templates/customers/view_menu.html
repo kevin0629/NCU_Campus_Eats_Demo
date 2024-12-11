@@ -18,7 +18,7 @@
 
         <!-- 右側按鈕與下拉選單 -->
         <div class="menu">
-            <a href="{{ url_for('customers.view_cart') }}">
+            <a href="{{ url_for('carts.view_cart') }}">
                 <button class="cart-button">
                     <img src="{{ url_for('static', filename='images/cart.png') }}" alt="Cart">
                 </button>
@@ -27,8 +27,8 @@
                 <img src="{{ url_for('static',filename='images/customer.png') }}" alt="Photo"> <!-- 替換為店家Icon的URL -->
                 <span>{{ customer_name }}</span>
                 <div class="dropdown-menu">
-                    <a href="{{ url_for('customers.view_order') }}">歷史訂單</a>
-                    <a href="{{ url_for('customers.view_pf') }}">修改個人資料</a>
+                    <a href="{{ url_for('orders.view_order') }}">歷史訂單</a>
+                    <a href="{{ url_for('auth.view_pf') }}">修改個人資料</a>
                     <a href="{{ url_for('auth.change_password') }}">修改密碼</a>
                     <a href="{{ url_for('auth.logout') }}">登出</a>
                 </div>
@@ -60,7 +60,7 @@
                         {% if item.item_image %}
                             <img src="{{ url_for('static', filename=item.item_image) }}" alt="餐點圖片">
                         {% endif %}
-                        <form action="{{ url_for('customers.add_to_cart') }}" method="post" onsubmit="return confirmAddToCart('{{ item.item_name }}')">
+                        <form action="{{ url_for('carts.add_to_cart') }}" method="post" onsubmit="return confirmAddToCart('{{ item.item_name }}')">
                             <input type="hidden" name="item_id" value="{{ item.item_id }}">
                             <input type="hidden" name="item_price" value="{{ item.price }}">
                             <input type="hidden" name="redirect_flag" value="0">

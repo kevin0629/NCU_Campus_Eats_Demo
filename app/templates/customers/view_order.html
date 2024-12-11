@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NCU Campus Eats | 歷史訂單</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/view_order.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='order_bp/view_order.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='customers/navbar.css') }}">
 </head>
 <body>
@@ -18,7 +18,7 @@
 
         <!-- 右側按鈕與下拉選單 -->
         <div class="menu">
-            <a href="{{ url_for('customers.view_cart') }}">
+            <a href="{{ url_for('carts.view_cart') }}">
                 <button class="cart-button">
                     <img src="{{ url_for('static', filename='images/cart.png') }}" alt="Cart">
                 </button>
@@ -27,8 +27,8 @@
                 <img src="{{ url_for('static', filename='images/customer.png') }}" alt="Photo">
                 <span>{{ customer_name }}</span>
                 <div class="dropdown-menu">
-                    <a href="{{ url_for('customers.view_order') }}">歷史訂單</a>
-                    <a href="{{ url_for('customers.view_pf') }}">修改個人資料</a>
+                    <a href="{{ url_for('orders.view_order') }}">歷史訂單</a>
+                    <a href="{{ url_for('auth.view_pf') }}">修改個人資料</a>
                     <a href="{{ url_for('auth.change_password') }}">修改密碼</a>
                     <a href="{{ url_for('auth.logout') }}">登出</a>
                 </div>
@@ -61,7 +61,7 @@
                         <button class="button view-button" onclick="openModal('{{ order_id }}')">查看詳細</button>
 
                         {% if order_data['order_status'] == 1 %}
-                            <form action="{{ url_for('customers.return_order') }}" method="post" style="display:inline;">
+                            <form action="{{ url_for('orders.return_order') }}" method="post" style="display:inline;">
                                 <input type="hidden" name="order_id" value="{{ order_id }}">
                                 {% for restaurant_id, restaurant_data in order_data['restaurants'].items() %}
                                     <input type="hidden" name="restaurant_id" value="{{ restaurant_data['restaurant_id'] }}">

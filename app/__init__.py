@@ -34,10 +34,11 @@ def create_app():
 
         
         # 延遲匯入controllers
-        from .Controllers import Auth_Controller, Customer_Controller, Restaurant_Controller, Menu_Controller
+        from .Controllers import Auth_Controller, Restaurant_Controller, Menu_Controller, Cart_Controller, Order_Controller
         # Register blueprints
         app.register_blueprint(Auth_Controller.auth_bp)
-        app.register_blueprint(Customer_Controller.customer_bp)
+        app.register_blueprint(Cart_Controller.cart_bp)
+        app.register_blueprint(Order_Controller.order_bp)
         app.register_blueprint(Restaurant_Controller.restaurant_bp)
         app.register_blueprint(Menu_Controller.menu_bp)
 

@@ -2,8 +2,8 @@ from app.Repositories.Menu_Repository import *
 from datetime import datetime
 
 # 獲取營業中的店家
-def get_open_stores_service(current_day, current_time):
-    store_info = get_all_restaurants_service()
+def get_open_stores_service(db_session, current_day, current_time):
+    store_info = get_all_restaurants_service(db_session)
 
     valid_stores = []
 
@@ -51,16 +51,12 @@ def get_open_stores_service(current_day, current_time):
 
     return valid_stores
 
+def get_all_restaurants_service(db_session):
+    return get_all_restaurants(db_session)
 
+def get_menu_items_by_restaurant_id_service(db_session, restaurant_id):
+    return get_menu_items_by_restaurant_id(db_session, restaurant_id)
 
-def get_all_restaurants_service():
-    return get_all_restaurants()
+def get_restaurant_by_id_service(db_session, restaurant_id):
+    return get_restaurant_by_id(db_session, restaurant_id)
 
-def get_menu_items_by_restaurant_id_service(restaurant_id):
-    return get_menu_items_by_restaurant_id(restaurant_id)
-
-def get_restaurant_by_id_service(restaurant_id):
-    return get_restaurant_by_id(restaurant_id)
-
-def get_menu_item_by_id_service(item_id):
-    return get_menu_item_by_id(item_id)

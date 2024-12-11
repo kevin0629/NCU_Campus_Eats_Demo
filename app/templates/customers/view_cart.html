@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NCU Campus Eats | 目前訂單</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/view_cart.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart_bp/view_cart.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='customers/navbar.css') }}">
 </head>
 <body>
@@ -17,7 +17,7 @@
 
         <!-- 右側按鈕與下拉選單 -->
         <div class="menu">
-            <a href="{{ url_for('customers.view_cart') }}">
+            <a href="{{ url_for('carts.view_cart') }}">
                 <button class="cart-button" >
                     <img src="{{ url_for('static', filename='images/cart.png') }}" alt="Cart">
                 </button>
@@ -26,8 +26,8 @@
                 <img src="{{ url_for('static',filename='images/customer.png') }}" alt="Photo"> <!-- 替換為店家Icon的URL -->
                 <span>{{ customer_name }}</span>
                 <div class="dropdown-menu">
-                    <a href="{{ url_for('customers.view_order') }}">歷史訂單</a>
-                    <a href="{{ url_for('customers.view_pf') }}">修改個人資料</a>
+                    <a href="{{ url_for('orders.view_order') }}">歷史訂單</a>
+                    <a href="{{ url_for('auth.view_pf') }}">修改個人資料</a>
                     <a href="{{ url_for('auth.change_password') }}">修改密碼</a>
                     <a href="{{ url_for('auth.logout') }}">登出</a>
                 </div>
@@ -66,13 +66,13 @@
                                     </td>
                                     <td class="action-column">
                                         <div class="action-buttons">
-                                            <form action="{{ url_for('customers.add_to_cart') }}" method="post" onsubmit="return confirmAction('{{ item.item_name }}', 'add')">
+                                            <form action="{{ url_for('carts.add_to_cart') }}" method="post" onsubmit="return confirmAction('{{ item.item_name }}', 'add')">
                                                 <input type="hidden" name="item_id" value="{{ item['item_id'] }}">
                                                 <input type="hidden" name="item_price" value="{{ item['price'] }}">
                                                 <input type="hidden" name="redirect_flag" value="1">
                                                 <button type="submit" class="button button-add">再新增「1」份至購物車</button>
                                             </form>
-                                            <form action="{{ url_for('customers.remove_from_cart') }}" method="post" onsubmit="return confirmAction('{{ item.item_name }}', 'remove')">
+                                            <form action="{{ url_for('carts.remove_from_cart') }}" method="post" onsubmit="return confirmAction('{{ item.item_name }}', 'remove')">
                                                 <input type="hidden" name="order_id" value="{{ restaurant_info['order_id'] }}">
                                                 <input type="hidden" name="order_detail_id" value="{{ item['order_detail_id'] }}">
                                                 <button type="submit" class="button button-remove">從購物車中移除「1」份</button>
@@ -96,7 +96,7 @@
                         {% endif %}
                     </p>
                     <div class="action-buttons">
-                        <form action="{{ url_for('customers.delete_order') }}" method="post" onsubmit="return confirmDeleteOrder()">
+                        <form action="{{ url_for('orders.delete_order') }}" method="post" onsubmit="return confirmDeleteOrder()">
                             <input type="hidden" name="order_id" value="{{ restaurant_info['order_id'] }}">
                             <button type="submit" class="button delete-order-button">刪除整筆訂單</button>
                         </form>
@@ -117,7 +117,7 @@
         <div class="modal-content">
             <span class="close" onclick="closePaymentModal()">&times;</span>
             <h2>選擇付款方式</h2>
-            <form id="paymentForm" action="{{ url_for('customers.checkout_order') }}" method="post" onsubmit="return confirmAction('', 'checkout')">
+            <form id="paymentForm" action="{{ url_for('orders.checkout_order') }}" method="post" onsubmit="return confirmAction('', 'checkout')">
                 <input type="hidden" id="paymentOrderId" name="order_id">
                 <input type="hidden" id="totalPrice" name="total_price">
                 <input type="hidden" id="restaurantID" name="restaurant_id">
@@ -148,7 +148,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeNoteModal()">&times;</span>
             <h2>新增備註</h2>
-            <form id="noteForm" action="{{ url_for('customers.add_note') }}" method="post">
+            <form id="noteForm" action="{{ url_for('orders.add_note') }}" method="post">
                 <input type="hidden" id="noteOrderId" name="order_id">
                 <input type="hidden" id="noteDetailId" name="order_detail_id">
                 <label for="note">請輸入備註內容：</label>

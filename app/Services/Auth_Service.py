@@ -4,35 +4,7 @@ from flask_mail import Message
 from app.Repositories.Auth_Repository import *
 from app import mail
 
-# 驗證用戶
-def authenticate_user_service(db_session, username, password):
-    user = is_authorized(db_session, username, password)
-    if user:
-        if user['role'] == 1:
-            customer = get_customer(db_session, username)
-            return {
-                'username': user['username'],
-                'role': user['role'],
-                'customer_id': customer['customer_id'],
-                'customer_name': customer['name']
-            }
-        elif user['role'] == 2:
-            restaurant = get_restaurant(db_session, username)
-            return {
-                'username': user['username'],
-                'role': user['role'],
-                'restaurant_id': restaurant['restaurant_id'],
-                'restaurant_name': restaurant['restaurant_name'],
-                'icon': restaurant['icon']
-            }
-    return None
-
-# 驗證email格式
-def is_valid_email(email):
-    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(email_regex, email) is not None
-
-# 註冊用戶
+# 1.1 註冊用戶
 def register_user_service(db_session, data, icon):
     role = data.get('role')
     username = data.get('username')
@@ -46,7 +18,7 @@ def register_user_service(db_session, data, icon):
     if not is_valid_email(email):
         return {'error': '無效的電子郵件格式'}
     
-    user_exists = is_user_exist(db_session, username)
+    user_exists = get_user(db_session, username)
     if user_exists:
         return {'error': '帳號已存在'}
 
@@ -95,18 +67,42 @@ def register_user_service(db_session, data, icon):
 
         return {'success': '店家註冊成功！'}
 
-# 重設密碼(暫時密碼)
+# 1.2 驗證用戶
+def authenticate_user_service(db_session, username, password):
+    user = is_authorized(db_session, username, password)
+    if user:
+        if user['role'] == 1:
+            customer = get_customer(db_session, username)
+            return {
+                'username': user['username'],
+                'role': user['role'],
+                'customer_id': customer['customer_id'],
+                'customer_name': customer['name']
+            }
+        elif user['role'] == 2:
+            restaurant = get_restaurant(db_session, username)
+            return {
+                'username': user['username'],
+                'role': user['role'],
+                'restaurant_id': restaurant['restaurant_id'],
+                'restaurant_name': restaurant['restaurant_name'],
+                'icon': restaurant['icon']
+            }
+    return None
+
+# 1.4 重設密碼(暫時密碼)
 def reset_password(db_session, username, email):
     user = get_user(db_session, username)
     if user:
         if user.role == 1:  # 顧客
             customer = get_customer_by_email(db_session, username, email)
+            if not customer:
+                return {'error': '帳號或電子郵件不正確。'}
         elif user.role == 2:  # 店家
             restaurant = get_restaurant_by_email(db_session, username, email)
-            
-        if (not customer) or (not restaurant):
-            return {'error': '帳號或電子郵件不正確。'}
-
+            if not restaurant:
+                return {'error': '帳號或電子郵件不正確。'}
+        
         new_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
         msg = Message('重置密碼', sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=[email])
@@ -121,7 +117,7 @@ def reset_password(db_session, username, email):
     else:
         return {'error': '帳號或電子郵件不正確。'}
 
-# 修改密碼
+# 1.4 修改密碼
 def change_password_service(db_session, username, current_password, new_password, confirm_password):
     if new_password != confirm_password:
         return {'error': '新密碼和確認密碼不一致'}
@@ -132,3 +128,22 @@ def change_password_service(db_session, username, current_password, new_password
         return {'success': '密碼修改成功'}
     else:
         return {'error': '當前密碼不正確'}
+    
+# 1.5 取得顧客資料Service
+def get_customer_profile(db_session, customer_id):
+    return get_customer_info(db_session, customer_id)
+
+# 1.6 更新顧客資料Service
+def update_customer_profile(db_session, customer_id, new_name, new_phone, new_email):
+    customer = get_customer_info(db_session, customer_id)
+    if customer:
+        update_customer_info(db_session, customer, new_name, new_phone, new_email)
+        return True
+    return False
+
+# 驗證email格式
+def is_valid_email(email):
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(email_regex, email) is not None
+
+

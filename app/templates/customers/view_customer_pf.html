@@ -17,7 +17,7 @@
 
         <!-- 右側按鈕與下拉選單 -->
         <div class="menu">
-            <a href="{{ url_for('customers.view_cart') }}">
+            <a href="{{ url_for('carts.view_cart') }}">
                 <button class="cart-button">
                     <img src="{{ url_for('static', filename='images/cart.png') }}" alt="Cart">
                 </button>
@@ -26,7 +26,7 @@
                 <img src="{{ url_for('static',filename='images/customer.png') }}" alt="Photo"> <!-- 替換為使用者Icon的URL -->
                 <span>{{ customer_name }}</span>
                 <div class="dropdown-menu">
-                    <a href="{{ url_for('customers.view_order') }}">歷史訂單</a>
+                    <a href="{{ url_for('orders.view_order') }}">歷史訂單</a>
                     <a href="{{ url_for('customers.view_pf') }}">修改個人資料</a>
                     <a href="{{ url_for('auth.change_password') }}">修改密碼</a>
                     <a href="{{ url_for('auth.logout') }}">登出</a>

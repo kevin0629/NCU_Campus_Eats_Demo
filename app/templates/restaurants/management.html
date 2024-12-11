@@ -264,7 +264,7 @@
                     <img src="{{ url_for('static', filename=item.item_image) }}" alt="餐點圖片">
                     {% endif %}
                     <div class="buttons">
-                        <a href="{{ url_for('menus.view_detailed_menu', item_id=item.item_id) }}">
+                        <a href="{{ url_for('restaurants.view_detailed_menu', item_id=item.item_id) }}">
                             <button>修改</button>
                         </a>
                         <a href="{{ url_for('restaurants.delete_item', item_id=item.item_id) }}" onclick="return confirm('確定要刪除 {{ item.item_name }} 嗎？')">

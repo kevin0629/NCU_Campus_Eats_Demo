@@ -13,7 +13,7 @@ def add_to_cart():
         customer_id = session.get('customer_id')
 
         with get_session() as db_session:
-            restaurant_id = add_item_to_cart(db_session, item_id, item_price, customer_id, redirect_flag)
+            restaurant_id = add_item_to_cart(db_session, item_id, item_price, customer_id)
             if redirect_flag == 1:
                 return redirect(url_for('customers.view_cart'))
             else:

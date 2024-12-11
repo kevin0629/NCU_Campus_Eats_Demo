@@ -196,4 +196,4 @@ def edit_profile():
                 flash("您的個人資料已成功更新！", "success")
             else:
                 flash("無法找到您的個人資料，請重新登錄。", "error")
-    return redirect(url_for('customers.view_pf'))
+    return redirect(url_for('auth.view_pf'))

@@ -48,12 +48,12 @@ def register_user_service(db_session, data, icon):
             # 處理圖片
             filename, file_extension = os.path.splitext(icon.filename)
             filename = str(store_id + 1) + file_extension
-            image_path = os.path.join('app/static/images/restaurants', filename)  # 儲存相對路徑
+            image_path = os.path.join('images/restaurants', filename)  # 儲存相對路徑
             image_path = image_path.replace("\\", "/")
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)  # 確保目錄存在
-            icon.save(image_path)  # 儲存圖片
+            os.makedirs(os.path.dirname(os.path.join('./app/static', image_path)), exist_ok=True)  # 確保目錄存在
+            icon.save(os.path.join('./app/static', image_path))  # 儲存圖
         else:
-            image_path = 'app/static/images/restaurants/restaurant.png'  # 若無圖片則設為設定預設圖片
+            image_path = 'images/restaurants/restaurant.png'   # 若無圖片則設為設定預設圖片
 
         hours = {}
         for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:

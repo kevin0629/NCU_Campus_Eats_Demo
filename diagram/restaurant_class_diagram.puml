@@ -9,14 +9,33 @@ package "Controllers" {
 package "Services" {
     class Restaurant_Service {
         +get_store_info_service()
+        +update_store_info_service()
+        +add_menu_item_service()
+        +get_menu_item_by_id_service()
+        +update_menu_item_service()
+        +delete_menu_item_service()
         +get_pending_orders_service()
+        +get_history_orders_service()
+        +update_order_status_service()
+        +update_payment_status_service()
     }
 }
 
 package "Repositories" {
     class Restaurant_Repository {
-        +fetch_restaurant_info()
-        +fetch_pending_orders()
+        +get_restaurant_info()
+        +update_restaurant_info()
+        +item_exists()
+        +get_last_item()
+        +add_item()
+        +get_item_info()
+        +get_menu_item_by_id()
+        +update_item_info()
+        +delete_item()
+        +get_pending_orders()
+        +get_history_orders()
+        +update_order_status()
+        +update_payment_status()
     }
 }
 

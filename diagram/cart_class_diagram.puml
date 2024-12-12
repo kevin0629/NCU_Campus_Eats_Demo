@@ -8,17 +8,22 @@ package "Controllers" {
 
 package "Services" {
     class Cart_Service {
-        +add_to_cart()
-        +remove_from_cart()
-        +view_cart()
+        +add_item_to_cart_service()
+        +get_cart_items_service()
+        +remove_item_from_cart_service()
     }
 }
 
 package "Repositories" {
     class Cart_Repository {
-        +fetch_cart_items()
-        +save_cart_item()
-        +delete_cart_item()
+        +add_one_item_in_cart()
+        +check_order()
+        +get_restaurant_id_for_item()
+        +check_existing_orders()
+        +delete_order_from_cart()
+        +fetch_cart_item()
+        +remove_from_cart()
+        +update_order_status_if_empty()
     }
 }
 

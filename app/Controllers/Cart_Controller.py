@@ -13,7 +13,7 @@ def add_to_cart():
         customer_id = session.get('customer_id')
 
         with get_session() as db_session:
-            restaurant_id = add_item_to_cart(db_session, item_id, item_price, customer_id)
+            restaurant_id = add_item_to_cart_service(db_session, item_id, item_price, customer_id)
             if redirect_flag == 1:
                 return redirect(url_for('carts.view_cart'))
             else:
@@ -25,7 +25,7 @@ def view_cart():
     customer_id = session.get('customer_id')
     customer_name = session.get('customer_name')
     with get_session() as db_session:
-        order_list = get_cart_items(db_session, customer_id)
+        order_list = get_cart_items_service(db_session, customer_id)
     return render_template('customers/view_cart.html', cart_items=order_list, customer_name=customer_name)
 
 # 4.3 移除一個商品
@@ -35,6 +35,6 @@ def remove_from_cart():
         order_id = request.form['order_id']
         order_detail_id = request.form['order_detail_id']
         with get_session() as db_session:
-            remove_item_from_cart(db_session, order_id, order_detail_id)
+            remove_item_from_cart_service(db_session, order_id, order_detail_id)
     return redirect(url_for('carts.view_cart'))
 

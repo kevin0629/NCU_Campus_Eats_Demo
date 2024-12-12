@@ -1,7 +1,5 @@
 from app.Repositories.Campus_Eats_Repository import *
 from sqlalchemy import text
-from datetime import datetime, timedelta
-import json
 
 # 5.1 + 5.2 抓取所有狀態非 0 和 5 的屬於指定客戶的訂單
 def fetch_all_orders(db_session, customer_id):

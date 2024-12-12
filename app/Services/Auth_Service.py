@@ -89,7 +89,7 @@ def authenticate_user_service(db_session, username, password):
     return None
 
 # 1.4 重設密碼(暫時密碼)
-def reset_password(db_session, username, email):
+def reset_password_service(db_session, username, email):
     user = get_user(db_session, username)
     if user:
         if user.role == 1:  # 顧客
@@ -128,11 +128,11 @@ def change_password_service(db_session, username, current_password, new_password
         return {'error': '當前密碼不正確'}
     
 # 1.5 取得顧客資料Service
-def get_customer_profile(db_session, customer_id):
+def get_customer_profile_service(db_session, customer_id):
     return get_customer_info(db_session, customer_id)
 
 # 1.6 更新顧客資料Service
-def update_customer_profile(db_session, customer_id, new_name, new_phone, new_email):
+def update_customer_profile_service(db_session, customer_id, new_name, new_phone, new_email):
     customer = get_customer_info(db_session, customer_id)
     if customer:
         update_customer_info(db_session, customer, new_name, new_phone, new_email)

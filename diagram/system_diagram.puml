@@ -38,10 +38,9 @@ package "Data Access Layer" {
         class Menu_Repository
         class Order_Repository
         class Restaurant_Repository
-        class Campus_Eats_Repository
     }
     package "Database" {
-        class SQLAlchemy_Models
+        class Campus_Eats_Repository
     }
 }
 

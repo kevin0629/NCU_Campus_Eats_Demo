@@ -12,56 +12,98 @@ package "Controllers" {
 
 package "Services" {
     class Auth_Service {
-        +login()
-        +register()
+        +register_user_service()
+        +authenticate_user_service()
+        +reset_password_service()
+        +change_password_service()
+        +get_customer_profile_service()
+        +update_customer_profile_service()
     }
     class Cart_Service {
-        +add_to_cart()
-        +remove_from_cart()
-        +view_cart()
+        +add_item_to_cart_service()
+        +get_cart_items_service()
+        +remove_item_from_cart_service()
     }
     class Menu_Service {
-        +get_menu_items()
-        +add_menu_item()
-        +update_menu_item()
-        +delete_menu_item()
+        +get_open_stores_service()
+        +get_all_restaurants_service()
+        +get_menu_items_by_restaurant_id_service()
+        +get_restaurant_by_id_service()
     }
     class Order_Service {
-        +get_all_orders()
+        +get_all_orders_service()
         +checkout_order_service()
         +add_note_service()
         +return_order_service()
     }
     class Restaurant_Service {
         +get_store_info_service()
+        +update_store_info_service()
+        +add_menu_item_service()
+        +get_menu_item_by_id_service()
+        +update_menu_item_service()
+        +delete_menu_item_service()
         +get_pending_orders_service()
+        +get_history_orders_service()
+        +update_order_status_service()
+        +update_payment_status_service()
     }
 }
 
 package "Repositories" {
     class Auth_Repository {
-        +fetch_user()
-        +save_user()
+        +add_user()
+        +add_customer()
+        +add_restaurant()
+        +get_last_store()
+        +get_customer()
+        +is_authorized()
+        +get_restaurant()
+        +update_user_password()
+        +get_user()
+        +get_customer_by_email()
+        +get_restaurant_by_email()
+        +get_customer_info()
+        +update_customer_info()
+        
     }
     class Cart_Repository {
-        +fetch_cart_items()
-        +save_cart_item()
-        +delete_cart_item()
+        +add_one_item_in_cart()
+        +check_order()
+        +get_restaurant_id_for_item()
+        +check_existing_orders()
+        +delete_order_from_cart()
+        +fetch_cart_item()
+        +remove_from_cart()
+        +update_order_status_if_empty()
     }
     class Menu_Repository {
-        +fetch_menu_items()
-        +save_menu_item()
-        +update_menu_item()
-        +delete_menu_item()
+        +get_all_restaurants()
+        +get_menu_items_by_restaurant_id()
+        +get_restaurant_by_id()
     }
     class Order_Repository {
         +fetch_all_orders()
-        +save_order()
-        +update_order_status()
+        +checkout_order()
+        +add_note_to_order
+        +return_order()
+        +check_existing_orders()
+        +delete_order_from_cart()
     }
     class Restaurant_Repository {
-        +fetch_restaurant_info()
-        +fetch_pending_orders()
+        +get_restaurant_info()
+        +update_restaurant_info()
+        +item_exists()
+        +get_last_item()
+        +add_item()
+        +get_item_info()
+        +get_menu_item_by_id()
+        +update_item_info()
+        +delete_item()
+        +get_pending_orders()
+        +get_history_orders()
+        +update_order_status()
+        +update_payment_status()
     }
 }
 

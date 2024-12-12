@@ -3,7 +3,7 @@ from app.Repositories.Cart_Repository import *
 from datetime import datetime, date
 
 # 5.1 + 5.2抓取所有狀態非 0 和 5 的屬於指定客戶的訂單
-def get_all_orders(db_session, customer_id):
+def get_all_orders_service(db_session, customer_id):
     return fetch_all_orders(db_session, customer_id)
 
 # 5.3 送出訂單Service

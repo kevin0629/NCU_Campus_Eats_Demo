@@ -8,19 +8,18 @@ package "Controllers" {
 
 package "Services" {
     class Menu_Service {
-        +get_menu_items()
-        +add_menu_item()
-        +update_menu_item()
-        +delete_menu_item()
+        +get_open_stores_service()
+        +get_all_restaurants_service()
+        +get_menu_items_by_restaurant_id_service()
+        +get_restaurant_by_id_service()
     }
 }
 
 package "Repositories" {
     class Menu_Repository {
-        +fetch_menu_items()
-        +save_menu_item()
-        +update_menu_item()
-        +delete_menu_item()
+        +get_all_restaurants()
+        +get_menu_items_by_restaurant_id()
+        +get_restaurant_by_id()
     }
 }
 

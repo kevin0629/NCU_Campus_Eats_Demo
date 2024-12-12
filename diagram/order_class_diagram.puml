@@ -8,7 +8,7 @@ package "Controllers" {
 
 package "Services" {
     class Order_Service {
-        +get_all_orders()
+        +get_all_orders_service()
         +checkout_order_service()
         +add_note_service()
         +return_order_service()
@@ -18,8 +18,11 @@ package "Services" {
 package "Repositories" {
     class Order_Repository {
         +fetch_all_orders()
-        +save_order()
-        +update_order_status()
+        +checkout_order()
+        +add_note_to_order
+        +return_order()
+        +check_existing_orders()
+        +delete_order_from_cart()
     }
 }
 

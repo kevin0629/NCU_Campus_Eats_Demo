@@ -34,7 +34,7 @@ def get_store_info_service(db_session, restaurant_id):
     return store_data
 
 # 2.2 更新餐廳資訊Service
-def update_store_info(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours):
+def update_store_info_service(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours):
     # 取得餐廳資訊
     restaurant_info = get_restaurant_info(db_session, restaurant_id)
 
@@ -59,7 +59,7 @@ def update_store_info(db_session, restaurant_id, restaurant_name, phone, address
 # 餐點相關==============================================================================================================
 
 # 2.3 新增餐點Service
-def add_menu_item(db_session, restaurant_id, item_name, price, description, status, item_image):
+def add_menu_item_service(db_session, restaurant_id, item_name, price, description, status, item_image):
     # 確認餐點是否已經存在過
     if item_exists(db_session, restaurant_id, item_name):
         return {'error': '餐點已存在'}
@@ -87,7 +87,7 @@ def get_menu_item_by_id_service(db_session, item_id):
     return get_menu_item_by_id(db_session, item_id)
 
 # 2.4 更新餐點Service
-def update_menu_item(db_session, item_id, item_name, price, description, status, item_image):
+def update_menu_item_service(db_session, item_id, item_name, price, description, status, item_image):
     # 取得餐點資訊
     item_info = get_item_info(db_session, item_id)
 
@@ -107,7 +107,7 @@ def update_menu_item(db_session, item_id, item_name, price, description, status,
     return {'success': '餐點資訊更新成功'}
 
 # 2.5 刪除餐點Service
-def delete_menu_item(db_session, item_id):
+def delete_menu_item_service(db_session, item_id):
     delete_item(db_session, item_id)
     return {'success': '餐點刪除成功'}
 

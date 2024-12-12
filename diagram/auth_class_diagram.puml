@@ -8,15 +8,31 @@ package "Controllers" {
 
 package "Services" {
     class Auth_Service {
-        +login()
-        +register()
+        +register_user_service()
+        +authenticate_user_service()
+        +reset_password_service()
+        +change_password_service()
+        +get_customer_profile_service()
+        +update_customer_profile_service()
     }
 }
 
 package "Repositories" {
     class Auth_Repository {
-        +fetch_user()
-        +save_user()
+        +add_user()
+        +add_customer()
+        +add_restaurant()
+        +get_last_store()
+        +get_customer()
+        +is_authorized()
+        +get_restaurant()
+        +update_user_password()
+        +get_user()
+        +get_customer_by_email()
+        +get_restaurant_by_email()
+        +get_customer_info()
+        +update_customer_info()
+        
     }
 }
 

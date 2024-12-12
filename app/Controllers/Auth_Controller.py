@@ -138,7 +138,7 @@ def forgot_password():
         email = request.form['email']
 
         with get_session() as db_session:
-            result = reset_password(db_session, username, email)
+            result = reset_password_service(db_session, username, email)
             if 'error' in result:
                 flash(result['error'])
                 return render_template('auth/forgot_password.html')
@@ -172,7 +172,7 @@ def view_pf():
     customer_id = session.get('customer_id')
     customer_name = session.get('customer_name')
     with get_session() as db_session:
-        data = get_customer_profile(db_session, customer_id)
+        data = get_customer_profile_service(db_session, customer_id)
         if not data:
             flash("找不到您的資料，請重新登錄", "error")
             return redirect(url_for('auth.login'))
@@ -192,7 +192,7 @@ def edit_profile():
         new_phone = request.form.get('phone')
         new_email = request.form.get('email')
         with get_session() as db_session:
-            if update_customer_profile(db_session, customer_id, new_name, new_phone, new_email):
+            if update_customer_profile_service(db_session, customer_id, new_name, new_phone, new_email):
                 flash("您的個人資料已成功更新！", "edit_profile_success")
             else:
                 flash("無法找到您的個人資料，請重新登錄。", "edit_profile_error")

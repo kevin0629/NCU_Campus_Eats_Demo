@@ -10,7 +10,7 @@ def view_order():
     customer_name = session.get('customer_name')
     customer_id = session.get('customer_id')
     with get_session() as db_session:
-        order_all_list = get_all_orders(db_session, customer_id)
+        order_all_list = get_all_orders_service(db_session, customer_id)
         return render_template('customers/view_order.html', customer_name=customer_name, order_all_list=order_all_list)
 
 # 5.3 + 5.6 送出訂單

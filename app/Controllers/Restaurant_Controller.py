@@ -32,7 +32,7 @@ def edit_store_info():
             hours[day] = [time for time in times if time]  # 過濾空值
 
         with get_session() as db_session:
-            result = update_store_info(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours)
+            result = update_store_info_service(db_session, restaurant_id, restaurant_name, phone, address, manager, manager_email, icon, hours)
             if 'success' in result:
                 session['restaurant_name'] = restaurant_name
                 session['icon'] = result['icon']
@@ -57,7 +57,7 @@ def add_item():
         item_image = request.files['item_image']
 
         with get_session() as db_session:
-            result = add_menu_item(db_session, restaurant_id, item_name, price, description, status, item_image)
+            result = add_menu_item_service(db_session, restaurant_id, item_name, price, description, status, item_image)
             if 'error' in result:
                 flash(result['error'])
                 return redirect(url_for('restaurants.add_item'))
@@ -99,7 +99,7 @@ def modify_item(item_id):
         item_image = request.files['item_image']
 
         with get_session() as db_session:
-            result = update_menu_item(db_session, item_id, item_name, price, description, status, item_image)
+            result = update_menu_item_service(db_session, item_id, item_name, price, description, status, item_image)
             if 'success' in result:
                 flash(result['success'], "modify_item_success")
             return redirect(url_for('menus.view_menu', restaurant_id=session.get('restaurant_id')))
@@ -108,7 +108,7 @@ def modify_item(item_id):
 @restaurant_bp.route('/management/delete_item/<int:item_id>')
 def delete_item(item_id):
     with get_session() as db_session:
-        result = delete_menu_item(db_session, item_id)
+        result = delete_menu_item_service(db_session, item_id)
         if 'success' in result:
             flash(result['success'], "delete_item_success")
     return redirect(url_for('menus.view_menu', restaurant_id=session.get('restaurant_id')))

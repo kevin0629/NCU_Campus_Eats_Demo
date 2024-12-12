@@ -1,8 +1,11 @@
 from app.Repositories.Campus_Eats_Repository import *
 from app.Repositories import get_session
 from sqlalchemy import text
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
+
+# 定義台灣時區
+taiwan_tz = timezone(timedelta(hours=+8))
 
 # 4.1 新增餐點進購物車
 def add_one_item_in_cart(db_session, item_id, order_id, item_price):
@@ -25,7 +28,9 @@ def add_one_item_in_cart(db_session, item_id, order_id, item_price):
 
 # 4.1 新增訂單資料 (還在購物車時的暫存資料)
 def check_order(db_session, customer_id):
-    current_time = datetime.now() # 記錄下訂單的時間
+    # 取得當前台灣的日期和時間
+    current_time = datetime.now(taiwan_tz)
+
     new_order = OrderTable(
         order_status=0,
         total_amount=0,
@@ -180,7 +185,7 @@ def update_order_status_if_empty(db_session, order_id):
 
 # 生成可以取餐的時間(目前是設定如果店接下來有開的話可以選的範圍就是兩個小時，然後十五分鐘為間隔)
 def get_available_times(business_hours):
-    now = datetime.now()
+    now = datetime.now(taiwan_tz)
     weekday_map = {
         0: 'Monday',
         1: 'Tuesday',

@@ -158,10 +158,10 @@ def change_password():
         with get_session() as db_session:
             result = change_password_service(db_session, session['username'], current_password, new_password, confirm_password)
             if 'error' in result:
-                flash(result['error'])
+                flash(result['error'],"change_password_error")
                 return redirect(url_for('auth.change_password'))
             else:
-                flash(result['success'])
+                flash(result['success'],"change_password_success")
                 return redirect(url_for('auth.login'))
 
     return render_template('auth/change_password.html')

@@ -260,12 +260,12 @@
             <label for="status">餐點狀態(0停售、1販售中)：</label>
             <input type="number" id="status" name="status" value="{{ status }}" required>
 
-            <label for="item_image">目前的餐廳圖片：</label>
+            <label for="item_image">目前的餐點圖片：</label>
             {% if icon %}
             <img src="{{ url_for('static', filename=item_image) }}" alt="餐點圖片">
             {% endif %}
 
-            <label for="item_image">更新餐廳圖片：</label>
+            <label for="item_image">更新餐點圖片：</label>
             <input type="file" id="item_image" name="item_image" accept="image/*">
 
             <button type="submit" class="btn-submit">修改</button>

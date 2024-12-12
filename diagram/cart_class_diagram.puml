@@ -1,0 +1,43 @@
+' 購物車模組類別圖
+@startuml Cart_Module
+left to right direction
+
+package "Controllers" {
+    class Cart_Controller
+}
+
+package "Services" {
+    class Cart_Service {
+        +add_to_cart()
+        +remove_from_cart()
+        +view_cart()
+    }
+}
+
+package "Repositories" {
+    class Cart_Repository {
+        +fetch_cart_items()
+        +save_cart_item()
+        +delete_cart_item()
+    }
+}
+
+package "Database" {
+    class OrderTable {
+        +order_id: Integer
+        +customer_id: Integer
+        +order_status: Integer
+        +order_time: DateTime
+        +total_amount: Integer
+        +order_pick_up_time: DateTime
+        +payment_method: Integer
+        +payment_status: Integer
+        +order_note: String
+    }
+}
+
+Cart_Controller --> Cart_Service
+Cart_Service --> Cart_Repository
+Cart_Repository --> OrderTable
+
+@enduml

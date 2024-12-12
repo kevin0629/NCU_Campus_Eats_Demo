@@ -1,0 +1,47 @@
+' 餐廳模組類別圖
+@startuml Restaurant_Module
+left to right direction
+
+package "Controllers" {
+    class Restaurant_Controller
+}
+
+package "Services" {
+    class Restaurant_Service {
+        +get_store_info_service()
+        +get_pending_orders_service()
+    }
+}
+
+package "Repositories" {
+    class Restaurant_Repository {
+        +fetch_restaurant_info()
+        +fetch_pending_orders()
+    }
+}
+
+package "Database" {
+    class Restaurant {
+        +restaurant_id: Integer
+        +restaurant_name: String
+        +phone: String
+        +address: String
+        +business_hours: String
+        +manager: String
+        +manager_email: String
+        +icon: String
+        +username: String
+    }
+    class UserTable {
+        +username: String
+        +password: String
+        +role: Integer
+    }
+}
+
+Restaurant_Controller --> Restaurant_Service
+Restaurant_Service --> Restaurant_Repository
+Restaurant_Repository --> Restaurant
+Restaurant --> UserTable
+
+@enduml

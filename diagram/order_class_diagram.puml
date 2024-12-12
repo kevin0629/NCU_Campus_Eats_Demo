@@ -1,0 +1,61 @@
+' 訂單模組類別圖
+@startuml Order_Module
+left to right direction
+
+package "Controllers" {
+    class Order_Controller
+}
+
+package "Services" {
+    class Order_Service {
+        +get_all_orders()
+        +checkout_order_service()
+        +add_note_service()
+        +return_order_service()
+    }
+}
+
+package "Repositories" {
+    class Order_Repository {
+        +fetch_all_orders()
+        +save_order()
+        +update_order_status()
+    }
+}
+
+package "Database" {
+    class OrderTable {
+        +order_id: Integer
+        +customer_id: Integer
+        +order_status: Integer
+        +order_time: DateTime
+        +total_amount: Integer
+        +order_pick_up_time: DateTime
+        +payment_method: Integer
+        +payment_status: Integer
+        +order_note: String
+    }
+    class OrderDetail {
+        +order_id: Integer
+        +order_detail_id: Integer
+        +item_id: Integer
+        +item_price: Integer
+        +quantity: Integer
+        +item_note: String
+    }
+    class Customer {
+        +customer_id: Integer
+        +name: String
+        +phone: String
+        +email: String
+        +username: String
+    }
+}
+
+Order_Controller --> Order_Service
+Order_Service --> Order_Repository
+Order_Repository --> OrderTable
+OrderTable --> Customer
+OrderDetail --> OrderTable
+
+@enduml

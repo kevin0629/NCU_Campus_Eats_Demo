@@ -1,0 +1,147 @@
+' 系統類別圖
+@startuml sys_class_diagram
+left to right direction
+
+package "Controllers" {
+    class Auth_Controller
+    class Cart_Controller
+    class Menu_Controller
+    class Order_Controller
+    class Restaurant_Controller
+}
+
+package "Services" {
+    class Auth_Service {
+        +login()
+        +register()
+    }
+    class Cart_Service {
+        +add_to_cart()
+        +remove_from_cart()
+        +view_cart()
+    }
+    class Menu_Service {
+        +get_menu_items()
+        +add_menu_item()
+        +update_menu_item()
+        +delete_menu_item()
+    }
+    class Order_Service {
+        +get_all_orders()
+        +checkout_order_service()
+        +add_note_service()
+        +return_order_service()
+    }
+    class Restaurant_Service {
+        +get_store_info_service()
+        +get_pending_orders_service()
+    }
+}
+
+package "Repositories" {
+    class Auth_Repository {
+        +fetch_user()
+        +save_user()
+    }
+    class Cart_Repository {
+        +fetch_cart_items()
+        +save_cart_item()
+        +delete_cart_item()
+    }
+    class Menu_Repository {
+        +fetch_menu_items()
+        +save_menu_item()
+        +update_menu_item()
+        +delete_menu_item()
+    }
+    class Order_Repository {
+        +fetch_all_orders()
+        +save_order()
+        +update_order_status()
+    }
+    class Restaurant_Repository {
+        +fetch_restaurant_info()
+        +fetch_pending_orders()
+    }
+}
+
+package "Database" {
+    class UserTable {
+        +username: String
+        +password: String
+        +role: Integer
+    }
+    class Customer {
+        +customer_id: Integer
+        +name: String
+        +phone: String
+        +email: String
+        +username: String
+    }
+    class Restaurant {
+        +restaurant_id: Integer
+        +restaurant_name: String
+        +phone: String
+        +address: String
+        +business_hours: String
+        +manager: String
+        +manager_email: String
+        +icon: String
+        +username: String
+    }
+    class MenuItem {
+        +item_id: Integer
+        +restaurant_id: Integer
+        +item_name: String
+        +price: Integer
+        +description: String
+        +status: Integer
+        +item_image: String
+    }
+    class OrderTable {
+        +order_id: Integer
+        +customer_id: Integer
+        +order_status: Integer
+        +order_time: DateTime
+        +total_amount: Integer
+        +order_pick_up_time: DateTime
+        +payment_method: Integer
+        +payment_status: Integer
+        +order_note: String
+    }
+    class OrderDetail {
+        +order_id: Integer
+        +order_detail_id: Integer
+        +item_id: Integer
+        +item_price: Integer
+        +quantity: Integer
+        +item_note: String
+    }
+}
+
+Auth_Controller --> Auth_Service
+Cart_Controller --> Cart_Service
+Menu_Controller --> Menu_Service
+Order_Controller --> Order_Service
+Restaurant_Controller --> Restaurant_Service
+
+Auth_Service --> Auth_Repository
+Cart_Service --> Cart_Repository
+Menu_Service --> Menu_Repository
+Order_Service --> Order_Repository
+Restaurant_Service --> Restaurant_Repository
+
+Auth_Repository --> UserTable
+Cart_Repository --> OrderTable
+Menu_Repository --> MenuItem
+Order_Repository --> OrderTable
+Restaurant_Repository --> Restaurant
+
+Customer --> UserTable
+Restaurant --> UserTable
+MenuItem --> Restaurant
+OrderTable --> Customer
+OrderDetail --> OrderTable
+OrderDetail --> MenuItem
+
+@enduml

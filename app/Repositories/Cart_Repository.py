@@ -204,8 +204,8 @@ def get_available_times(business_hours):
     if today_hours is None or today_hours == 'Closed':
         return []
     open_time_str, close_time_str = today_hours.split("~")
-    open_time = datetime.strptime(open_time_str, "%H:%M").replace(year=now.year, month=now.month, day=now.day)
-    close_time = datetime.strptime(close_time_str, "%H:%M").replace(year=now.year, month=now.month, day=now.day)
+    open_time = datetime.strptime(open_time_str, "%H:%M").replace(year=now.year, month=now.month, day=now.day, tzinfo=taiwan_tz)
+    close_time = datetime.strptime(close_time_str, "%H:%M").replace(year=now.year, month=now.month, day=now.day, tzinfo=taiwan_tz)
     if now >= close_time:
         return []
     earliest_pickup_time = now + timedelta(minutes=15)

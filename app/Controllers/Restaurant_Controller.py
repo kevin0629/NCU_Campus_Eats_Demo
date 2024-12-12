@@ -101,7 +101,7 @@ def modify_item(item_id):
         with get_session() as db_session:
             result = update_menu_item(db_session, item_id, item_name, price, description, status, item_image)
             if 'success' in result:
-                flash(result['success'])
+                flash(result['success'], "modify_item_success")
             return redirect(url_for('menus.view_menu', restaurant_id=session.get('restaurant_id')))
 
 # 2.5 刪除餐點
@@ -110,7 +110,7 @@ def delete_item(item_id):
     with get_session() as db_session:
         result = delete_menu_item(db_session, item_id)
         if 'success' in result:
-            flash(result['success'])
+            flash(result['success'], "delete_item_success")
     return redirect(url_for('menus.view_menu', restaurant_id=session.get('restaurant_id')))
 
 # 訂單相關==============================================================================================================

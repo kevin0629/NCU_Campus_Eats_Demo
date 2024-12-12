@@ -54,7 +54,7 @@ def update_store_info(db_session, restaurant_id, restaurant_name, phone, address
 
     # 更新餐廳資訊
     update_restaurant_info(db_session, restaurant_info, restaurant_name, phone, address, business_hours, manager, manager_email, image_path)
-    return {'success': '餐廳信息更新成功', 'icon': image_path}
+    return {'success': '餐廳資訊更新成功', 'icon': image_path}
 
 # 餐點相關==============================================================================================================
 
@@ -104,7 +104,7 @@ def update_menu_item(db_session, item_id, item_name, price, description, status,
 
     # 更新餐點資訊
     update_item_info(db_session, item_info, item_name, price, description, status, image_path)
-    return {'success': '餐點信息更新成功'}
+    return {'success': '餐點資訊更新成功'}
 
 # 2.5 刪除餐點Service
 def delete_menu_item(db_session, item_id):

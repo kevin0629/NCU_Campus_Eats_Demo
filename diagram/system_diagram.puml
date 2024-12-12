@@ -1,0 +1,52 @@
+' 系統架構圖
+@startuml sys_diagram
+left to right direction
+
+package "Presentation Layer" {
+    package "Flask Application" {
+        package "Controllers" {
+            class Auth_Controller
+            class Cart_Controller
+            class Menu_Controller
+            class Order_Controller
+            class Restaurant_Controller
+        }
+        package "Templates" {
+            class HTML_Templates
+        }
+        package "Static Files" {
+            class CSS
+            class JavaScript
+        }
+    }
+}
+
+package "Business Logic Layer" {
+    package "Services" {
+        class Auth_Service
+        class Cart_Service
+        class Menu_Service
+        class Order_Service
+        class Restaurant_Service
+    }
+}
+
+package "Data Access Layer" {
+    package "Repositories" {
+        class Auth_Repository
+        class Cart_Repository
+        class Menu_Repository
+        class Order_Repository
+        class Restaurant_Repository
+        class Campus_Eats_Repository
+    }
+    package "Database" {
+        class SQLAlchemy_Models
+    }
+}
+
+"Flask Application" -down-> "Services"
+"Services" -down-> "Repositories"
+"Repositories" -down-> "Database"
+
+@enduml

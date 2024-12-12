@@ -1,0 +1,35 @@
+' 會員模組類別圖
+@startuml Auth_Module
+left to right direction
+
+package "Controllers" {
+    class Auth_Controller
+}
+
+package "Services" {
+    class Auth_Service {
+        +login()
+        +register()
+    }
+}
+
+package "Repositories" {
+    class Auth_Repository {
+        +fetch_user()
+        +save_user()
+    }
+}
+
+package "Database" {
+    class UserTable {
+        +username: String
+        +password: String
+        +role: Integer
+    }
+}
+
+Auth_Controller --> Auth_Service
+Auth_Service --> Auth_Repository
+Auth_Repository --> UserTable
+
+@enduml

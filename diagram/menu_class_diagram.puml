@@ -1,0 +1,55 @@
+' 菜單模組類別圖
+@startuml Menu_Module
+left to right direction
+
+package "Controllers" {
+    class Menu_Controller
+}
+
+package "Services" {
+    class Menu_Service {
+        +get_menu_items()
+        +add_menu_item()
+        +update_menu_item()
+        +delete_menu_item()
+    }
+}
+
+package "Repositories" {
+    class Menu_Repository {
+        +fetch_menu_items()
+        +save_menu_item()
+        +update_menu_item()
+        +delete_menu_item()
+    }
+}
+
+package "Database" {
+    class MenuItem {
+        +item_id: Integer
+        +restaurant_id: Integer
+        +item_name: String
+        +price: Integer
+        +description: String
+        +status: Integer
+        +item_image: String
+    }
+    class Restaurant {
+        +restaurant_id: Integer
+        +restaurant_name: String
+        +phone: String
+        +address: String
+        +business_hours: String
+        +manager: String
+        +manager_email: String
+        +icon: String
+        +username: String
+    }
+}
+
+Menu_Controller --> Menu_Service
+Menu_Service --> Menu_Repository
+Menu_Repository --> MenuItem
+MenuItem --> Restaurant
+
+@enduml

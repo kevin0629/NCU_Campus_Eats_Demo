@@ -16,7 +16,7 @@ def checkout_order_service(db_session, order_id, total_price, pickup_time, payme
     pickup_datetime = datetime.combine(current_date, pickup_time)
     formatted_pickup_datetime = pickup_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
-    checkout_order(db_session, order_id, total_price, formatted_pickup_datetime, payment_method)
+    checkout_order(db_session, order_id, total_price, now, formatted_pickup_datetime, payment_method)
 
 # 5.3.2 新增訂單備註
 def add_note_service(db_session, order_id, order_detail_id, note_text):

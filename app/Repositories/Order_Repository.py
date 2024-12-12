@@ -60,12 +60,13 @@ def fetch_all_orders(db_session, customer_id):
     return grouped_orders
 
 # 5.3 送出訂單
-def checkout_order(db_session, order_id, total_price, formatted_pickup_datetime, payment_method):
+def checkout_order(db_session, order_id, total_price, now, formatted_pickup_datetime, payment_method):
     order = db_session.query(OrderTable).filter_by(order_id=order_id).first()
 
     if order:
         order.order_status = 1 # 設定狀態為 1 表示已送出
         order.total_amount = total_price # 更新總金額
+        order.order_time = now # 更新成訂單送出時間
         order.order_pick_up_time = formatted_pickup_datetime # 更新成訂單送出時間
         order.payment_method = payment_method # 更新付款方式
         db_session.commit()

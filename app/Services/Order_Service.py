@@ -1,6 +1,8 @@
 from app.Repositories.Order_Repository import *
 from app.Repositories.Cart_Repository import *
-from datetime import datetime, date
+from datetime import datetime, timedelta, timezone
+
+taiwan_tz = timezone(timedelta(hours=+8))
 
 # 5.1 + 5.2抓取所有狀態非 0 和 5 的屬於指定客戶的訂單
 def get_all_orders_service(db_session, customer_id):
@@ -8,7 +10,8 @@ def get_all_orders_service(db_session, customer_id):
 
 # 5.3 送出訂單Service
 def checkout_order_service(db_session, order_id, total_price, pickup_time, payment_method):
-    current_date = date.today()
+    now = datetime.now(taiwan_tz)
+    current_date = now.date()
     pickup_time = datetime.strptime(pickup_time, "%H:%M").time()
     pickup_datetime = datetime.combine(current_date, pickup_time)
     formatted_pickup_datetime = pickup_datetime.strftime("%Y-%m-%d %H:%M:%S")

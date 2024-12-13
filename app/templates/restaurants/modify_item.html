@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='restaurants/modify_item.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='restaurants/restaurant_navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/restaurants/modify_item.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/restaurants/restaurant_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/restaurants/modify_item.js') }}"></script>
     <title>餐廳資訊</title>
 </head>
 <body>
@@ -61,24 +62,6 @@
             <button type="submit" class="btn-submit">修改</button>
         </form>
     </div>
-    
-    <script>
-        function validateModifyItemForm() {
-            const price = document.querySelector('[name="price"]').value;
-            const status = document.querySelector('[name="status"]').value;
 
-            if (price < 0) {
-                alert('請妥善設置餐點價格 (不可為負數)');
-                return false;
-            }
-
-            if (status > 1 || status < 0) {
-                alert('請妥善設置餐點狀態 (0停售、1販售中)');
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </body>
 </html>

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='restaurants/restaurant_navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='restaurants/view_order.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/restaurants/restaurant_navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/restaurants/view_order.css') }}">
+    <script src="{{ url_for('static', filename='js/restaurants/view_order.js') }}"></script>
     <title>訂單管理</title>
 </head>
 <body>
@@ -34,6 +35,7 @@
         </div>
     </header>
 
+    <div id="orderData" data-order='{{ order_process | tojson }}' style="display:none;"></div>
     <div class="content">
         <div class="section-header">
             <h2>待處理訂單</h2>
@@ -55,7 +57,7 @@
                 </div>
             {% endif %}
         {% endfor %}
-        
+
         <div class="section-header">
             <h2>已確認的訂單</h2>
         </div>
@@ -76,7 +78,7 @@
                 </div>
             {% endif %}
         {% endfor %}
-        
+
         <div class="section-header">
             <h2>處理中訂單</h2>
         </div>
@@ -97,7 +99,7 @@
                 </div>
             {% endif %}
         {% endfor %}
-        
+
         <div class="section-header">
             <h2>訂單完成待付款</h2>
         </div>
@@ -177,110 +179,5 @@
         </div>
     </div>
 
-
-    <!-- JavaScript 控制模態視窗 -->
-    <script>
-        function openModal(orderId) {
-            const orderData = JSON.parse('{{ order_process | tojson }}');
-            const order = orderData[orderId];
-            let modalDetails = '';
-
-            modalDetails += `
-                <p><strong>訂單編號：</strong>${orderId}</p>
-                <p><strong>顧客ID：</strong>${order.customer_id}</p>
-                <p><strong>下單時間：</strong>${order.order_time}</p>
-                <p><strong>預定取餐時間：</strong>${order.order_pick_up_time}</p>
-                <p><strong>訂單備註：</strong>${order.order_note}</p>
-                <p><strong>總金額：</strong>${order.total_amount} 元</p>
-                <p><strong>付款狀態：</strong>${order.payment_status}</p>
-                <hr>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>餐點名稱</th>
-                            <th>數量</th>
-                            <th>單價</th>
-                            <th>小計</th>
-                            <th>備註</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            Object.values(order.order_details).forEach(item => {
-                modalDetails += `
-                    <tr>
-                        <td>${item.item_name}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.price} 元</td>
-                        <td>${item.price * item.quantity} 元</td>
-                        <td>${item.item_note}</td>
-                    </tr>
-                `;
-            });
-
-            modalDetails += `
-                    </tbody>
-                </table>
-            `;
-
-            document.getElementById('modalDetails').innerHTML = modalDetails;
-            document.getElementById('orderModal').style.display = 'block';
-        }
-
-        // 關閉訂單詳細資料模態框
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
-        }
-
-        // 開啟更新訂單狀態模態框
-        function openStatusModal(orderId, orderStatus) {
-            document.getElementById('order_id').value = orderId;
-            document.getElementById('statusModal').style.display = 'block';
-
-            // 設定目前訂單狀態為選取狀態
-            const orderStatusSelect = document.getElementById('order_status');
-            orderStatusSelect.value = orderStatus;
-        }
-
-        // 關閉更新訂單狀態模態框
-        function closeStatusModal() {
-            document.getElementById('statusModal').style.display = 'none';
-        }
-
-        // 提交更新訂單狀態
-        function submitStatus() {
-            const form = document.getElementById('statusForm');
-            form.submit();
-        }
-
-        // 開啟更新支付狀態模態框
-        function openPaymentModal(orderId, paymentStatus) {
-            document.getElementById('payment_order_id').value = orderId;
-            document.getElementById('paymentModal').style.display = 'block';
-
-            // 設定目前支付狀態為選取狀態
-            const payStatusSelect = document.getElementById('payment_status');
-            payStatusSelect.value = paymentStatus;
-        }
-
-        // 關閉更新支付狀態模態框
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
-
-        // 提交更新支付狀態
-        function submitPaymentStatus() {
-            const form = document.getElementById('paymentForm');
-            form.submit();
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('orderModal');
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
 </body>
 </html>

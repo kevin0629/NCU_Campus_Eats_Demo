@@ -19,7 +19,7 @@ package "Repositories" {
     class Order_Repository {
         +fetch_all_orders()
         +checkout_order()
-        +add_note_to_order
+        +add_note_to_order()
         +return_order()
         +check_existing_orders()
         +delete_order_from_cart()

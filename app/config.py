@@ -25,4 +25,3 @@ class Config:
     MAIL_USERNAME = 'ncucampuseats@gmail.com'
     MAIL_PASSWORD = 'lqaykqriqgxmhoxc'  # 要記得填入
     MAIL_DEFAULT_SENDER = 'ncucampuseats@gmail.com'
-    #test

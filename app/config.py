@@ -2,8 +2,8 @@ import os
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/campus_eats'
-    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:113423027@mysql-1.cfg8ygkqmlab.ap-northeast-3.rds.amazonaws.com/campus_eats' #AWS
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://****:*@localhost/campus_eats'
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://****:*********@mysql-1.cfg8ygkqmlab.ap-northeast-3.rds.amazonaws.com/campus_eats' #AWS
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # OAuth 設定

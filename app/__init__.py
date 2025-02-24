@@ -47,7 +47,6 @@ def create_database(app):
     db_name = db_uri.split('/')[-1]
     connection_uri = '/'.join(db_uri.split('/')[:-1])
     connection = pymysql.connect(host='mysql-1.cfg8ygkqmlab.ap-northeast-3.rds.amazonaws.com', user='root', password='113423027')
-    # connection = pymysql.connect(host='localhost', user='root', password='')
     cursor = connection.cursor()
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name} DEFAULT CHARACTER SET = 'utf8mb4'")
     connection.close()

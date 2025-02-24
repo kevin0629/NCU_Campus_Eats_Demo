@@ -3,8 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NCU Campus Eats | 個人資料</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/view_pf.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customers/view_pf.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customers/customers_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/customers/view_customer_pf.js') }}"></script>
 </head>
 <body>
     <!-- 頂部導航欄 -->
@@ -54,23 +55,9 @@
 
     {% with messages = get_flashed_messages(category_filter=["edit_profile_success", "edit_profile_error"], with_categories=True) %}
         {% if messages %}
-            <script>
-                const messages = JSON.parse('{{ messages | tojson | safe }}');
-                messages.forEach(([category, message]) => {
-                    alert(message);
-                });
-            </script>
+        <div id="flash-container" data-messages='{{ messages | tojson | safe }}'></div>
         {% endif %}
     {% endwith %}
-
-
-
-    <script>
-        // 確認修改個人資料的函數
-        function confirmEditProfile() {
-            return confirm("您確定要修改您的個人資料嗎？");
-        }
-    </script>
 
 </body>
 </html>

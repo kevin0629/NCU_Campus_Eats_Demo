@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NCU Campus Eats</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/view_menu.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='customers/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customers/view_menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customers/customers_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/customers/view_menu.js') }}"></script>
 </head>
 <body>
     <!-- 頂部導航欄 -->
@@ -74,15 +75,5 @@
             {% endfor %}
         </div>
     </div>
-
-    <script>
-        function confirmAddToCart(itemname) {
-            if (confirm("你確定要將"+itemname+"加入「1」份至購物車嗎？")) {
-                return true; // 允許表單提交
-            } else {
-                return false; // 阻止表單提交
-            }
-        }
-    </script>
 </body>
 </html>
